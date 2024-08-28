@@ -1,24 +1,11 @@
 import { FC, FormEvent, useState } from 'react';
-import {
-  Transaction,
-  PublicKey,
-  TransactionInstruction,
-  SystemProgram,
-} from '@solana/web3.js';
-import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { StudentIntro } from '@/models/studentIntro';
 
-import { useFormTransactionToast } from './ui-layout';
-import { STUDENT_INTRO_PROGRAM_ID } from '@/coordinator/studentIntroCoordinator';
+const STUDENT_INTRO_PROGRAM_ID = 'HdE95RSVsdb315jfJtaykXhXY478h53X6okDupVfY9yf';
 
 export const Form: FC = () => {
   const [name, setName] = useState('');
   const [message, setMessage] = useState('');
-
-  const { connection } = useConnection();
-  const { publicKey, sendTransaction } = useWallet();
-
-  const showTransactionToast = useFormTransactionToast();
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -27,50 +14,11 @@ export const Form: FC = () => {
   };
 
   const handleTransactionSubmit = async (studentIntro: StudentIntro) => {
-    if (!publicKey) {
-      console.log('Please connect your wallet to submit a review.');
-      return;
-    }
-
-    const buffer = studentIntro.serialize();
-    const transaction = new Transaction();
-
-    const [pda] = await PublicKey.findProgramAddressSync(
-      [publicKey.toBuffer()],
-      new PublicKey(STUDENT_INTRO_PROGRAM_ID)
-    );
-
-    const instruction = new TransactionInstruction({
-      keys: [
-        { pubkey: publicKey, isSigner: true, isWritable: false },
-        { pubkey: pda, isSigner: false, isWritable: true },
-        {
-          pubkey: SystemProgram.programId,
-          isSigner: false,
-          isWritable: false,
-        },
-      ],
-      data: buffer,
-      programId: new PublicKey(STUDENT_INTRO_PROGRAM_ID),
-    });
-
-    transaction.add(instruction);
-
     try {
-      const transactionId = await sendTransaction(transaction, connection);
-      showTransactionToast({
-        signature: transactionId,
-        status: 'success',
-      });
-      console.log(
-        `Transaction submitted: https://explorer.solana.com/tx/${transactionId}?cluster=devnet`
-      );
+      console.log(studentIntro);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      showTransactionToast({
-        status: 'failure',
-        errorMessage: error.message,
-      });
+      console.log(error);
     }
   };
 
