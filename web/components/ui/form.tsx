@@ -9,8 +9,7 @@ import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { StudentIntro } from '@/models/studentIntro';
 
 import { useFormTransactionToast } from './ui-layout';
-
-const STUDENT_INTRO_PROGRAM_ID = 'HdE95RSVsdb315jfJtaykXhXY478h53X6okDupVfY9yf';
+import { STUDENT_INTRO_PROGRAM_ID } from '@/coordinator/studentIntroCoordinator';
 
 export const Form: FC = () => {
   const [name, setName] = useState('');
