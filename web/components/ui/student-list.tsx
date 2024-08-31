@@ -2,8 +2,7 @@ import { FC, useState, useEffect } from 'react';
 import { Card } from './card';
 import { Connection, clusterApiUrl, PublicKey } from '@solana/web3.js';
 import { StudentIntro } from '@/models/studentIntro';
-
-const STUDENT_INTRO_PROGRAM_ID = 'HdE95RSVsdb315jfJtaykXhXY478h53X6okDupVfY9yf';
+import { STUDENT_INTRO_PROGRAM_ID } from './form';
 
 export const StudentList: FC = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
